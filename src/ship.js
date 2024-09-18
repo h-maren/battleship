@@ -2,6 +2,7 @@ class Ship {
     constructor(type){
         this.length=this.findLength(type);
         this.numHits=0;
+        this.type=type.toLowerCase();
     }
     findLength(type){
         let newString=type.toLowerCase();
