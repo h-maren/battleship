@@ -9,6 +9,8 @@ const testCruiser = new Ship('Cruiser');
 testCruiser.hit();
 testCruiser.hit();
 testCruiser.hit();
+const gameBoard3=new Gameboard;
+gameBoard3.placeShip(testCruiser,'B2','down');
 
 const testSub = new Ship('submarine');
 const gameBoard = new Gameboard;
@@ -68,6 +70,16 @@ test('placing ship out of gameboard', () => {
 test('if sub has been hit', () => {
     expect(testSub.numHits).toBe(1);
 });
+
+test('if sub has sunk', ()=> {
+    expect(testSub.isSunk()).toBeFalsy();
+});
 test('if showing missed attack', () => {
     expect(gameBoard.missedAttacks[5][0]).toBe('missed');
+});
+test('are all ships sunk on gameboard 1', () => {
+    expect(gameBoard.isAllSunk()).toBeFalsy();
+});
+test('are all ships sunk on gameboard 3', () => {
+    expect(gameBoard3.isAllSunk()).toBeTruthy();
 });

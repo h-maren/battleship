@@ -71,6 +71,22 @@ class Gameboard {
         if(this.shipPlacement[xcoord][ycoord]!=null){
             this.shipPlacement[xcoord][ycoord].hit();
         }
+
+    }
+    isAllSunk(){
+        let uniqueShips=[];
+        for(let i=0; i<10; i++){
+            for (let j=0; j<10; j++){
+                let ship=this.shipPlacement[i][j]
+                if(ship!=null){
+                    if(!uniqueShips.includes(ship)){
+                        uniqueShips.push(ship);
+                    }
+                }
+            }
+        }
+        let checkIfSunk=uniqueShips.every(ship=>ship.isSunk()===true);
+        return checkIfSunk;
     }
 }
 
