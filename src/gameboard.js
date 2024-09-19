@@ -57,14 +57,29 @@ class Gameboard {
                 this.shipPlacement[xcoord-i][ycoord]=Ship;
             }
         }
-        function isOffBoard(newX,newY){
-            if((newX >= 0)&&(newX <=9)&&(newY >=0)&&(newY <=9)){
-                return false;
-            }
-            else {
-                return true;
-            }
+    }
+    receiveAttack(coord){
+        let xcoord=Number(coord.charCodeAt(coord.charAt(0))-65);
+        let ycoord=Number(coord.charAt(1))-1;
+        let checkOffBoard=isOffBoard(xcoord,ycoord);
+        if(checkOffBoard){
+            return;
         }
+        if(this.shipPlacement[xcoord][ycoord]==null){
+            this.missedAttacks[xcoord][ycoord]='missed';
+        }
+        if(this.shipPlacement[xcoord][ycoord]!=null){
+            this.shipPlacement[xcoord][ycoord].hit();
+        }
+    }
+}
+
+function isOffBoard(newX,newY){
+    if((newX >= 0)&&(newX <=9)&&(newY >=0)&&(newY <=9)){
+        return false;
+    }
+    else {
+        return true;
     }
 }
 
