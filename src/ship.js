@@ -6,7 +6,6 @@ class Ship {
     }
     findLength(type){
         let newString=type.toLowerCase();
-        console.log(newString)
         if(newString=='carrier'){
             return 5;
         }
