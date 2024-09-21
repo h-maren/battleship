@@ -1,0 +1,40 @@
+body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.header, .game-message {
+    grid-column: 1/5;
+    text-align: center;
+}
+
+h3 {
+    text-align: center;
+}
+
+h1, h2, h3 {
+    margin: 10px;
+    text-align: center;
+}
+
+.missed-attacks-gameboard, .ship-placement-gameboard {
+    display: grid;
+    grid-template-columns: repeat(11,30px);
+    grid-template-rows: repeat(11,30px);
+}
+
+.game-square {
+    border-style: groove;
+    border-color: black;
+    border-width: 1px;
+}
+
+.legend-square {
+    text-align: center;
+}
+
+.real-player-gameboard, .comp-player-gameboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
