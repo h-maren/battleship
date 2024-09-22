@@ -29,7 +29,9 @@ class Player {
                 }
                 if(missedAttack){
                     let missedSquare=missedAttackGameboard.querySelector(`[data-xcoord="${xValue}"][data-ycoord="${yValue}"]`);
-                    missedSquare.classList.add('missed');
+                    if(missedAttack){
+                        missedSquare.classList.add(missedAttack);
+                    }
                 }
             }
         }

@@ -67,6 +67,8 @@ class Gameboard {
         if(coord.length==3){
             ycoord=Number(coord.charAt(1)+coord.charAt(2))-1;
         }
+        console.log(xcoord);
+        console.log(ycoord);
         let checkOffBoard=isOffBoard(xcoord,ycoord);
         if(checkOffBoard){
             return;
@@ -76,8 +78,8 @@ class Gameboard {
         }
         if(this.shipPlacement[xcoord][ycoord]!=null){
             this.shipPlacement[xcoord][ycoord].hit();
+            this.missedAttacks[xcoord][ycoord]='hit';
         }
-
     }
     isAllSunk(){
         let uniqueShips=[];

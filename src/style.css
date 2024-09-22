@@ -69,3 +69,7 @@ h1, h2, h3 {
 .missed-attacks-gameboard .missed {
     background-color: yellow;
 }
+
+.missed-attacks-gameboard .hit {
+    background-color: green;
+}
