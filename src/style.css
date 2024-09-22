@@ -1,10 +1,10 @@
 body {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 3fr 3fr;
 }
 
 .header, .game-message {
-    grid-column: 1/5;
+    grid-column: 1/2;
     text-align: center;
 }
 
@@ -15,6 +15,21 @@ h3 {
 h1, h2, h3 {
     margin: 10px;
     text-align: center;
+}
+
+.real-player-gameboard {
+    grid-column: 2/3;
+}
+
+.comp-player-gameboard {
+    grid-column: 3/4;
+}
+
+.play-interface {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
 }
 
 .missed-attacks-gameboard, .ship-placement-gameboard {
@@ -37,4 +52,20 @@ h1, h2, h3 {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.ship-placement-gameboard .game-square {
+    background-color: blue;
+}
+
+.missed-attacks-gameboard .game-square {
+    background-color: red;
+}
+
+.ship-placement-gameboard .ship {
+    background-color: black;
+}
+
+.missed-attacks-gameboard .missed {
+    background-color: yellow;
 }

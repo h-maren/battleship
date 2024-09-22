@@ -16,9 +16,12 @@ class Gameboard {
         return blankBoard;
     }
     placeShip(Ship,coord,direction){
-        //split coordinates into
+        //split coordinates into x and y
         let xcoord=Number(coord.charCodeAt(coord.charAt(0))-65);
         let ycoord=Number(coord.charAt(1))-1;
+        if(coord.length==3){
+            ycoord=Number(coord.charAt(1)+coord.charAt(2))-1;
+        }
         let shipLength=Ship.length;
         let shipDirection=direction.toLowerCase();
         if(shipDirection=="up"){
@@ -26,7 +29,7 @@ class Gameboard {
             if(checkOffBoard){
                 return;
             }
-            for(let i=0; i<=shipLength; i++){
+            for(let i=0; i<shipLength; i++){
                 this.shipPlacement[xcoord][ycoord-i]=Ship;
             }
         }
@@ -35,7 +38,7 @@ class Gameboard {
             if(checkOffBoard){
                 return;
             }
-            for(let i=0; i<=shipLength; i++){
+            for(let i=0; i<shipLength; i++){
                 this.shipPlacement[xcoord][ycoord+i]=Ship;
             }
         }
@@ -44,7 +47,7 @@ class Gameboard {
             if(checkOffBoard){
                 return;
             }
-            for(let i=0; i<=shipLength; i++){
+            for(let i=0; i<shipLength; i++){
                 this.shipPlacement[xcoord+i][ycoord]=Ship;
             }
         }
@@ -53,7 +56,7 @@ class Gameboard {
             if(checkOffBoard){
                 return;
             }
-            for(let i=0; i<=shipLength; i++){
+            for(let i=0; i<shipLength; i++){
                 this.shipPlacement[xcoord-i][ycoord]=Ship;
             }
         }
@@ -61,6 +64,9 @@ class Gameboard {
     receiveAttack(coord){
         let xcoord=Number(coord.charCodeAt(coord.charAt(0))-65);
         let ycoord=Number(coord.charAt(1))-1;
+        if(coord.length==3){
+            ycoord=Number(coord.charAt(1)+coord.charAt(2))-1;
+        }
         let checkOffBoard=isOffBoard(xcoord,ycoord);
         if(checkOffBoard){
             return;
