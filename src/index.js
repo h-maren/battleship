@@ -63,6 +63,7 @@ function playRound(e){
     console.log(e.target);
     let ycoord=e.target.getAttribute("data-ycoord");
     let coord=convertCoord(xcoord,ycoord);
+
     compPlayer.gameboard.receiveAttack(coord);
     let allCompShipsSunk=compPlayer.gameboard.isAllSunk();
     if(allCompShipsSunk){
@@ -73,7 +74,7 @@ function playRound(e){
     compPlayer.renderGameboard();
     let messageContainer=document.querySelector('.game-message');
     if(e.target.classList.contains('missed')){
-        messageContainer.textContent=`Real player selects ${coord} and misses!`;
+        messageContainer.textContent=`Real player selects ${coord} and misses!\n`;
     }
     if(e.target.classList.contains('hit')){
         let shipCheck=compPlayer.gameboard.shipPlacement[xcoord][ycoord].isSunk();
@@ -81,7 +82,7 @@ function playRound(e){
         if(shipCheck==true){  
             messageContainer.textContent=`Real player selects ${coord} and sinks the ${compPlayer.gameboard.shipPlacement[xcoord][ycoord].type}!`;
         } else {
-        messageContainer.textContent=`Real player selects ${coord} and hits a ship!`;
+        messageContainer.textContent=`Real player selects ${coord} and hits a ship!\n`;
         }
     }
     //computer player round
@@ -100,7 +101,20 @@ function playRound(e){
     }
     realPlayer.renderGameboard();
     compPlayer.renderGameboard();
-    //NEED TO FIX after this
+    let compGameboard=document.querySelector('.comp-player-gameboard');
+    let compGameboardMA=compGameboard.querySelector('.missed-attacks-gameboard');
+    let compSquare=compGameboardMA.querySelector(`[data-xcoord="${xCompCoord}"][data-ycoord="${yCompCoord}"]`);
+    if(compSquare.classList.contains('missed')){
+        messageContainer.textContent+=`\nComputer player selects ${compCoord} and misses!`;
+    }
+    if(compSquare.classList.contains('hit')){
+        let shipCheck=realPlayer.gameboard.shipPlacement[xCompCoord][yCompCoord].isSunk();
+        if(shipCheck==true){
+            messageContainer.textContent=`Comp player selects ${compCoord} and sinks the ${realPlayer.gameboard.shipPlacement[xCompCoord][yCompCoord].type}!`;
+        } else {
+            messageContainer.textContent+=`Comp player selects ${compCoord} and hits a ship!`;
+        }
+    }
 }
 
 function generateRandomCoords() {
