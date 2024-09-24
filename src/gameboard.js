@@ -47,7 +47,7 @@ class Gameboard {
             }
         }
         if(shipDirection=="right"){
-            let checkOffBoard=isOffBoard(xcoord+shipLength,ycoord);
+            let checkOffBoard=isOffBoard(xcoord+shipLength-1,ycoord);
             if(checkOffBoard){
                 return false;
             }
@@ -56,7 +56,7 @@ class Gameboard {
             }
         }
         if(shipDirection=="left"){
-            let checkOffBoard=isOffBoard(xcoord-shipLength,ycoord);
+            let checkOffBoard=isOffBoard(xcoord-shipLength+1,ycoord);
             if(checkOffBoard){
                 return false;
             }

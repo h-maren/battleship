@@ -17,23 +17,25 @@ placeBattleshipBtn.addEventListener("click", (e) => {
     sendShipCoords(e);
 });
 
+let placeCruiserBtn=document.querySelector('.place-cruiser');
+
+placeCruiserBtn.addEventListener("click", (e) => {
+    sendShipCoords(e);
+});
+
 let placeSubBtn=document.querySelector('.place-submarine');
 
 placeSubBtn.addEventListener("click", (e) => {
     sendShipCoords(e);
 });
 
-/*placeSubBtn.addEventListener("click", () => {
-    let shipDirection=document.querySelector('input#sub-direction').value;
-    let shipCoords=document.querySelector('input#sub-coords').value;
-    let shipType='submarine';
-    let validCheck=getShipCoords(shipType,shipDirection,shipCoords);
-    if(validCheck==false){
-        placeSubForm.reset();
-        return;
-    }
-    placeSubForm.remove();
-});*/
+let placeDestBtn=document.querySelector('.place-destroyer');
+
+placeDestBtn.addEventListener("click", (e) => {
+    sendShipCoords(e);
+});
+
+
 
 function sendShipCoords (e){
     let shipType=e.target.parentElement.parentElement.firstElementChild.textContent.toLowerCase()
