@@ -20,22 +20,28 @@ let pcCruiser = new Ship('cruiser');
 let pcSub = new Ship('submarine');
 let pcDestroyer = new Ship('destroyer');
 
-realPlayer.gameboard.placeShip(rpCarrier,'A1','right');
-realPlayer.gameboard.placeShip(rpBattleship,'C6','down');
-realPlayer.gameboard.placeShip(rpCruiser,'I9','left');
-realPlayer.gameboard.placeShip(rpSub,'H6','up');
-realPlayer.gameboard.placeShip(rpDestroyer,'A3','right');
+//realPlayer.gameboard.placeShip(rpCarrier,'A1','right');
+//realPlayer.gameboard.placeShip(rpBattleship,'C6','down');
+//realPlayer.gameboard.placeShip(rpCruiser,'I9','left');
+//realPlayer.gameboard.placeShip(rpSub,'H6','up');
+//realPlayer.gameboard.placeShip(rpDestroyer,'A3','right');
 
 compPlayer.gameboard.placeShip(pcCarrier,'B2','down');
 compPlayer.gameboard.placeShip(pcBattleship,'F10','right');
 compPlayer.gameboard.placeShip(pcCruiser,'H2','down');
 compPlayer.gameboard.placeShip(pcSub,'F8','left');
-compPlayer.gameboard.placeShip(pcDestroyer,'D10','left');
+compPlayer.gameboard.placeShip(pcDestroyer,'D10','up');
 
 let compAttacks=[];
 let rpAttacks =[];
 
 let messageContainer=document.querySelector('.game-message');
+
+const getShipCoords = (function(shipType,shipDirection,shipCoords) {
+    let newShip = new Ship(shipType);
+    realPlayer.gameboard.placeShip(newShip,shipCoords,shipDirection);
+    realPlayer.renderGameboard();
+});
 
 const initializeGame = (function (){
     messageContainer.textContent=`Human player, select your attack by clicking a coordinate on your attacks board!`;
@@ -58,14 +64,17 @@ const playRound = (function (e){
     realPlayer.renderGameboard();
     compPlayer.renderGameboard();
     if(e.target.classList.contains('missed')){
-        messageContainer.textContent=`Real player selects ${coord} and misses!\n`;
+        messageContainer.textContent=`Real player selects ${coord} and misses!`;
+        messageContainer.textContent+="\n";
     }
     if(e.target.classList.contains('hit')){
         let shipCheck=compPlayer.gameboard.shipPlacement[xcoord][ycoord].isSunk();
         if(shipCheck==true){  
             messageContainer.textContent=`Real player selects ${coord} and sinks the ${compPlayer.gameboard.shipPlacement[xcoord][ycoord].type}!`;
+            messageContainer.textContent+="\n";
         } else {
-        messageContainer.textContent=`Real player selects ${coord} and hits a ship!\n`;
+        messageContainer.textContent=`Real player selects ${coord} and hits a ship!`;
+        messageContainer.textContent+="\n";
         }
     }
     let allCompShipsSunk=compPlayer.gameboard.isAllSunk();
@@ -86,7 +95,7 @@ const playRound = (function (e){
     let compGameboardMA=compGameboard.querySelector('.missed-attacks-gameboard');
     let compSquare=compGameboardMA.querySelector(`[data-xcoord="${xCompCoord}"][data-ycoord="${yCompCoord}"]`);
     if(compSquare.classList.contains('missed')){
-        messageContainer.textContent+=`\nComputer player selects ${compCoord} and misses!`;
+        messageContainer.textContent+=`Computer player selects ${compCoord} and misses!`;
     }
     if(compSquare.classList.contains('hit')){
         let shipCheck=realPlayer.gameboard.shipPlacement[xCompCoord][yCompCoord].isSunk();
@@ -116,4 +125,4 @@ function convertCoord(xcoord,ycoord){
 }
 
 
-module.exports = {playRound, initializeGame}
+module.exports = {playRound, initializeGame, getShipCoords}

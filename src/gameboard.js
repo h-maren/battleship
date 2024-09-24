@@ -24,6 +24,10 @@ class Gameboard {
         }
         let shipLength=Ship.length;
         let shipDirection=direction.toLowerCase();
+        let ifValidPlacement=this.isValidPlacement(shipLength,shipDirection,xcoord,ycoord);
+        if(!ifValidPlacement){
+            return;
+        }
         if(shipDirection=="up"){
             let checkOffBoard=isOffBoard(xcoord,ycoord-shipLength);
             if(checkOffBoard){
@@ -94,6 +98,37 @@ class Gameboard {
         let checkIfSunk=uniqueShips.every(ship=>ship.isSunk()===true);
         return checkIfSunk;
     }
+    isValidPlacement(shipLength,shipDirection,xcoord,ycoord){
+        if(shipDirection=="up"){
+            for(let i=0; i<shipLength; i++){
+                if(this.shipPlacement[xcoord][ycoord-i]!==null){
+                    return false;
+                }
+            }
+        }
+        if(shipDirection=="down"){
+            for(let i=0; i<shipLength; i++){
+                if(this.shipPlacement[xcoord][ycoord+i]!==null){
+                    return false;
+                }
+            }
+        }
+        if(shipDirection=="right"){
+            for(let i=0; i<shipLength; i++){
+                if(this.shipPlacement[xcoord+i][ycoord]!==null){
+                    return false;
+                }
+            }
+        }
+        if(shipDirection=="left"){
+            for(let i=0; i<shipLength; i++){
+                if(this.shipPlacement[xcoord-i][ycoord]!==null){
+                    return false;
+                }
+            }
+        }        
+        return true;
+    }
 }
 
 function isOffBoard(newX,newY){
@@ -104,5 +139,6 @@ function isOffBoard(newX,newY){
         return true;
     }
 }
+
 
 module.exports = {Gameboard}
