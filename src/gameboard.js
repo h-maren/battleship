@@ -26,12 +26,12 @@ class Gameboard {
         let shipDirection=direction.toLowerCase();
         let ifValidPlacement=this.isValidPlacement(shipLength,shipDirection,xcoord,ycoord);
         if(!ifValidPlacement){
-            return;
+            return false;
         }
         if(shipDirection=="up"){
             let checkOffBoard=isOffBoard(xcoord,ycoord-shipLength);
             if(checkOffBoard){
-                return;
+                return false;
             }
             for(let i=0; i<shipLength; i++){
                 this.shipPlacement[xcoord][ycoord-i]=Ship;
@@ -40,7 +40,7 @@ class Gameboard {
         if(shipDirection=="down"){
             let checkOffBoard=isOffBoard(xcoord,ycoord+shipLength);
             if(checkOffBoard){
-                return;
+                return false;
             }
             for(let i=0; i<shipLength; i++){
                 this.shipPlacement[xcoord][ycoord+i]=Ship;
@@ -49,7 +49,7 @@ class Gameboard {
         if(shipDirection=="right"){
             let checkOffBoard=isOffBoard(xcoord+shipLength,ycoord);
             if(checkOffBoard){
-                return;
+                return false;
             }
             for(let i=0; i<shipLength; i++){
                 this.shipPlacement[xcoord+i][ycoord]=Ship;
@@ -58,7 +58,7 @@ class Gameboard {
         if(shipDirection=="left"){
             let checkOffBoard=isOffBoard(xcoord-shipLength,ycoord);
             if(checkOffBoard){
-                return;
+                return false;
             }
             for(let i=0; i<shipLength; i++){
                 this.shipPlacement[xcoord-i][ycoord]=Ship;
@@ -73,7 +73,7 @@ class Gameboard {
         }
         let checkOffBoard=isOffBoard(xcoord,ycoord);
         if(checkOffBoard){
-            return;
+            return false;
         }
         if(this.shipPlacement[xcoord][ycoord]==null){
             this.missedAttacks[xcoord][ycoord]='missed';

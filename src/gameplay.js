@@ -39,6 +39,11 @@ let messageContainer=document.querySelector('.game-message');
 
 const getShipCoords = (function(shipType,shipDirection,shipCoords) {
     let newShip = new Ship(shipType);
+    let validCheck=realPlayer.gameboard.placeShip(newShip,shipCoords,shipDirection)
+    if(validCheck==false){
+        messageContainer.textContent=`Input valid coordinates for ${shipType}!`;
+        return false;
+    }
     realPlayer.gameboard.placeShip(newShip,shipCoords,shipDirection);
     realPlayer.renderGameboard();
 });

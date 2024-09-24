@@ -5,32 +5,49 @@ const {playRound, initializeGame, getShipCoords} = require('./gameplay.js');
 require('./style.css');
 
 
+let placeCarrierBtn=document.querySelector('.place-carrier');
 
-let placeSubForm=document.querySelector('#input-sub');
-let placeSubBtn=document.querySelector('.place-sub');
+placeCarrierBtn.addEventListener("click", (e) => {
+    sendShipCoords(e);
+});
 
-placeSubBtn.addEventListener("click", () => {
+let placeBattleshipBtn=document.querySelector('.place-battleship');
+
+placeBattleshipBtn.addEventListener("click", (e) => {
+    sendShipCoords(e);
+});
+
+let placeSubBtn=document.querySelector('.place-submarine');
+
+placeSubBtn.addEventListener("click", (e) => {
+    sendShipCoords(e);
+});
+
+/*placeSubBtn.addEventListener("click", () => {
     let shipDirection=document.querySelector('input#sub-direction').value;
     let shipCoords=document.querySelector('input#sub-coords').value;
     let shipType='submarine';
-    getShipCoords(shipType,shipDirection,shipCoords);
-    //NEED TO FIX - only remove if input is valid
-
+    let validCheck=getShipCoords(shipType,shipDirection,shipCoords);
+    if(validCheck==false){
+        placeSubForm.reset();
+        return;
+    }
     placeSubForm.remove();
-});
+});*/
 
-let placeCarrierForm=document.querySelector('#input-carrier');
-let placeCarrierBtn=document.querySelector('.place-carrier');
+function sendShipCoords (e){
+    let shipType=e.target.parentElement.parentElement.firstElementChild.textContent.toLowerCase()
+    let shipForm=document.querySelector(`#input-${shipType}`);
+    let shipDirection=document.querySelector(`input#${shipType}-direction`).value;
+    let shipCoords=document.querySelector(`input#${shipType}-coords`).value;
+    let validCheck=getShipCoords(shipType,shipDirection,shipCoords);
+    if(validCheck==false){
+        shipForm.reset();
+        return;
+    }
+    shipForm.remove();
+}
 
-placeCarrierBtn.addEventListener("click", () => {
-    let shipDirection=document.querySelector('input#carrier-direction').value;
-    let shipCoords=document.querySelector('input#carrier-coords').value;
-    let shipType='carrier';
-    getShipCoords(shipType,shipDirection,shipCoords);
-        //NEED TO FIX - only remove if input is valid
-
-    placeCarrierForm.remove();
-});
 
 
 
