@@ -7,11 +7,11 @@ let realPlayer = new Player('real');
 let compPlayer = new Player('computer');
 
 //create coords for real player
-let rpCarrier = new Ship('carrier');
+/*let rpCarrier = new Ship('carrier');
 let rpBattleship = new Ship('battleship');
 let rpCruiser = new Ship('cruiser');
 let rpSub = new Ship('submarine');
-let rpDestroyer = new Ship('destroyer');
+let rpDestroyer = new Ship('destroyer');*/7
 
 //create coords for pc player
 let pcCarrier = new Ship('carrier');
@@ -26,14 +26,41 @@ let pcDestroyer = new Ship('destroyer');
 //realPlayer.gameboard.placeShip(rpSub,'H6','up');
 //realPlayer.gameboard.placeShip(rpDestroyer,'A3','right');
 
-compPlayer.gameboard.placeShip(pcCarrier,'B2','down');
+
+/*compPlayer.gameboard.placeShip(pcCarrier,'B2','down');
 compPlayer.gameboard.placeShip(pcBattleship,'F10','right');
 compPlayer.gameboard.placeShip(pcCruiser,'H2','down');
 compPlayer.gameboard.placeShip(pcSub,'F8','left');
 compPlayer.gameboard.placeShip(pcDestroyer,'D10','up');
+*/
+compPlayerPlaceShips(pcCarrier);
+compPlayerPlaceShips(pcBattleship);
+compPlayerPlaceShips(pcCruiser);
+compPlayerPlaceShips(pcSub);
+compPlayerPlaceShips(pcDestroyer);
 
 let compAttacks=[];
 let rpAttacks =[];
+
+//pc player places ships randomly
+function compPlayerPlaceShips(ship){
+    //generate random coordinates
+    let [xCompCoord,yCompCoord,compCoord]=generateRandomCoords();
+    let shipDirection=String(generateRandomDirection());
+    console.log(shipDirection);
+    console.log(compCoord);
+    let validCheck=compPlayer.gameboard.placeShip(ship,compCoord,shipDirection);
+    console.log(validCheck);
+    while(validCheck==false){
+        [xCompCoord,yCompCoord,compCoord]=generateRandomCoords();
+        shipDirection=String(generateRandomDirection());
+        console.log(validCheck);
+        validCheck=compPlayer.gameboard.placeShip(ship,compCoord,shipDirection)
+    }
+    compPlayer.gameboard.placeShip(ship,compCoord,shipDirection);
+    compPlayer.renderGameboard();
+}
+
 
 let messageContainer=document.querySelector('.game-message');
 
@@ -122,6 +149,21 @@ function generateRandomCoords() {
     let yCompCoord=Math.floor(Math.random()*10);
     let compCoord=convertCoord(xCompCoord,yCompCoord);
     return [xCompCoord,yCompCoord,compCoord];
+}
+
+function generateRandomDirection(){
+    let randomNumber=Math.floor(Math.random()*4);
+    let randomDirection="left";
+    if(randomNumber==0){
+        randomDirection="right";
+    }
+    if(randomNumber==1){
+        randomDirection="down";
+    }
+    if(randomNumber==2){
+        randomDirection="up";
+    }
+    return randomDirection;
 }
 
 function convertCoord(xcoord,ycoord){

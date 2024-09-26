@@ -24,42 +24,30 @@ class Gameboard {
         }
         let shipLength=Ship.length;
         let shipDirection=direction.toLowerCase();
+        let checkWithinBoard=isWithinBoard(shipLength,shipDirection,xcoord,ycoord);
+        if(!checkWithinBoard){
+            return false;
+        }
         let ifValidPlacement=this.isValidPlacement(shipLength,shipDirection,xcoord,ycoord);
         if(!ifValidPlacement){
             return false;
         }
         if(shipDirection=="up"){
-            let checkOffBoard=isOffBoard(xcoord,ycoord-shipLength);
-            if(checkOffBoard){
-                return false;
-            }
             for(let i=0; i<shipLength; i++){
                 this.shipPlacement[xcoord][ycoord-i]=Ship;
             }
         }
         if(shipDirection=="down"){
-            let checkOffBoard=isOffBoard(xcoord,ycoord+shipLength);
-            if(checkOffBoard){
-                return false;
-            }
             for(let i=0; i<shipLength; i++){
                 this.shipPlacement[xcoord][ycoord+i]=Ship;
             }
         }
         if(shipDirection=="right"){
-            let checkOffBoard=isOffBoard(xcoord+shipLength-1,ycoord);
-            if(checkOffBoard){
-                return false;
-            }
             for(let i=0; i<shipLength; i++){
                 this.shipPlacement[xcoord+i][ycoord]=Ship;
             }
         }
         if(shipDirection=="left"){
-            let checkOffBoard=isOffBoard(xcoord-shipLength+1,ycoord);
-            if(checkOffBoard){
-                return false;
-            }
             for(let i=0; i<shipLength; i++){
                 this.shipPlacement[xcoord-i][ycoord]=Ship;
             }
@@ -71,8 +59,8 @@ class Gameboard {
         if(coord.length==3){
             ycoord=Number(coord.charAt(1)+coord.charAt(2))-1;
         }
-        let checkOffBoard=isOffBoard(xcoord,ycoord);
-        if(checkOffBoard){
+        let checkWithinBoard=isWithinBoard(xcoord,ycoord);
+        if(checkWithinBoard){
             return false;
         }
         if(this.shipPlacement[xcoord][ycoord]==null){
@@ -131,12 +119,28 @@ class Gameboard {
     }
 }
 
-function isOffBoard(newX,newY){
+function isWithinBoard(shipLength,shipDirection,xcoord,ycoord){
+    let newX=xcoord;
+    let newY=ycoord;
+    if(shipDirection=="up"){
+        newY=ycoord-shipLength+1;
+    }
+    if(shipDirection=="down"){
+        newY=ycoord+shipLength-1;
+    }
+    if(shipDirection=="right"){
+        newX=xcoord+shipLength-1;
+    }
+    if(shipDirection=="left"){
+        newX=xcoord-shipLength+1;
+    }
+    console.log(newX);
+    console.log(newY);
     if((newX >= 0)&&(newX <=9)&&(newY >=0)&&(newY <=9)){
-        return false;
+        return true;
     }
     else {
-        return true;
+        return false;
     }
 }
 
