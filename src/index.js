@@ -1,7 +1,7 @@
 const {Ship} = require('./ship.js');
 const {Gameboard} = require('./gameboard.js');
 const {Player} = require('./player.js');
-const {playRound, initializeGame, getShipCoords} = require('./gameplay.js');
+const {playRound, initializeGame, getShipCoords, checkIfGameReady} = require('./gameplay.js');
 require('./style.css');
 
 
@@ -55,8 +55,15 @@ function sendShipCoords (e){
 
 let startBtn=document.querySelector('.start-btn');
 startBtn.addEventListener('click', (e) => {
+    //NEED TO FIX
+    let checkReady=initializeGame();
+    console.log(checkReady);
+    if(!checkReady){
+        return;
+    }
     initializeGame();
     startBtn.textContent='Game has started!';
+    realPlayerAttackSquares.forEach((square) => {square.addEventListener("click", playRound)});
 });
 
 const realPlayerAttackSquares = (function () {
@@ -66,4 +73,3 @@ const realPlayerAttackSquares = (function () {
     return attackSquares;
 })();
 
-realPlayerAttackSquares.forEach((square) => {square.addEventListener("click", playRound)});

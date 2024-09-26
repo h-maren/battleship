@@ -39,6 +39,7 @@ compPlayerPlaceShips(pcCruiser);
 compPlayerPlaceShips(pcSub);
 compPlayerPlaceShips(pcDestroyer);
 
+
 let compAttacks=[];
 let rpAttacks =[];
 
@@ -47,18 +48,15 @@ function compPlayerPlaceShips(ship){
     //generate random coordinates
     let [xCompCoord,yCompCoord,compCoord]=generateRandomCoords();
     let shipDirection=String(generateRandomDirection());
-    console.log(shipDirection);
-    console.log(compCoord);
     let validCheck=compPlayer.gameboard.placeShip(ship,compCoord,shipDirection);
-    console.log(validCheck);
     while(validCheck==false){
         [xCompCoord,yCompCoord,compCoord]=generateRandomCoords();
         shipDirection=String(generateRandomDirection());
-        console.log(validCheck);
         validCheck=compPlayer.gameboard.placeShip(ship,compCoord,shipDirection)
     }
     compPlayer.gameboard.placeShip(ship,compCoord,shipDirection);
     compPlayer.renderGameboard();
+    console.log(compPlayer.gameboard.shipList);
 }
 
 
@@ -76,11 +74,32 @@ const getShipCoords = (function(shipType,shipDirection,shipCoords) {
 });
 
 const initializeGame = (function (){
-    messageContainer.textContent=`Human player, select your attack by clicking a coordinate on your attacks board!`;
-    realPlayer.renderGameboard();
-    compPlayer.renderGameboard();
-    compAttacks=[];
-    rpAttacks=[];
+    let checkReady=checkIfGameReady();
+    if(checkReady){
+        messageContainer.textContent=`Human player, select your attack by clicking a coordinate on your attacks board!`;
+        realPlayer.renderGameboard();
+        compPlayer.renderGameboard();
+        compAttacks=[];
+        rpAttacks=[];
+    }
+    else {
+        return false;
+    }
+});
+
+const checkIfGameReady = (function (){
+    let compPlayerReady=compPlayer.gameboard.allShipsPlaced();
+    let realPlayerReady=realPlayer.gameboard.allShipsPlaced();
+    console.log(realPlayerReady);
+    if(!compPlayerReady){
+        messageContainer.textContent=`You're computer player is lazy and is not ready!`;
+        return false;
+    }
+    if(!realPlayerReady.textContent){
+        messageContainer.textContent=`Human player, you haven't placed all your ships yet!`;
+        return false;
+    }
+    return true;
 });
 
 const playRound = (function (e){
@@ -172,4 +191,4 @@ function convertCoord(xcoord,ycoord){
 }
 
 
-module.exports = {playRound, initializeGame, getShipCoords}
+module.exports = {playRound, initializeGame, getShipCoords, checkIfGameReady}

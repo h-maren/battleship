@@ -4,6 +4,7 @@ class Gameboard {
     constructor(){
         this.shipPlacement = this.initiateBoard();
         this.missedAttacks = this.initiateBoard();
+        this.shipList=[];
     }
     initiateBoard(){
         let blankBoard=[];
@@ -52,6 +53,7 @@ class Gameboard {
                 this.shipPlacement[xcoord-i][ycoord]=Ship;
             }
         }
+        this.shipList.push(Ship.type);
     }
     receiveAttack(coord){
         let xcoord=Number(coord.charCodeAt(coord.charAt(0))-65);
@@ -117,6 +119,24 @@ class Gameboard {
         }        
         return true;
     }
+    allShipsPlaced(){
+        if(!this.shipList.includes('battleship')){
+            return false;
+        }
+        if(!this.shipList.includes('carrier')){
+            return false;
+        }
+        if(!this.shipList.includes('battleship')){
+            return false;
+        }
+        if(!this.shipList.includes('submarine')){
+            return false;
+        }
+        if(!this.shipList.includes('destroyer')){
+            return false;
+        }
+        return true;
+    }
 }
 
 function isWithinBoard(shipLength,shipDirection,xcoord,ycoord){
@@ -134,8 +154,6 @@ function isWithinBoard(shipLength,shipDirection,xcoord,ycoord){
     if(shipDirection=="left"){
         newX=xcoord-shipLength+1;
     }
-    console.log(newX);
-    console.log(newY);
     if((newX >= 0)&&(newX <=9)&&(newY >=0)&&(newY <=9)){
         return true;
     }
