@@ -54,8 +54,9 @@ function sendShipCoords (e){
 
 
 let startBtn=document.querySelector('.start-btn');
-startBtn.addEventListener('click', (e) => {
-    //NEED TO FIX
+startBtn.addEventListener('click', startGame);
+
+function startGame(){
     let checkReady=initializeGame();
     console.log(checkReady);
     if(!checkReady){
@@ -64,7 +65,8 @@ startBtn.addEventListener('click', (e) => {
     initializeGame();
     startBtn.textContent='Game has started!';
     realPlayerAttackSquares.forEach((square) => {square.addEventListener("click", playRound)});
-});
+    startBtn.removeEventListener('click', startGame);
+};
 
 const realPlayerAttackSquares = (function () {
     let playerGameboard=document.querySelector('.real-player-gameboard');

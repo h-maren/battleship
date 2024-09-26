@@ -70,17 +70,20 @@ const getShipCoords = (function(shipType,shipDirection,shipCoords) {
         return false;
     }
     realPlayer.gameboard.placeShip(newShip,shipCoords,shipDirection);
+    messageContainer.textContent=`Human player put ${newShip.type} at ${shipCoords} facing ${shipDirection}!`
     realPlayer.renderGameboard();
 });
 
 const initializeGame = (function (){
     let checkReady=checkIfGameReady();
+    console.log(checkReady);
     if(checkReady){
         messageContainer.textContent=`Human player, select your attack by clicking a coordinate on your attacks board!`;
         realPlayer.renderGameboard();
         compPlayer.renderGameboard();
         compAttacks=[];
         rpAttacks=[];
+        return true;
     }
     else {
         return false;
@@ -95,7 +98,7 @@ const checkIfGameReady = (function (){
         messageContainer.textContent=`You're computer player is lazy and is not ready!`;
         return false;
     }
-    if(!realPlayerReady.textContent){
+    if(!realPlayerReady){
         messageContainer.textContent=`Human player, you haven't placed all your ships yet!`;
         return false;
     }
