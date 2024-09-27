@@ -41,7 +41,7 @@ placeDestBtn.addEventListener("click", (e) => {
 
 function sendShipCoords(e) {
   let shipType =
-    e.target.parentElement.parentElement.firstElementChild.textContent.toLowerCase();
+    e.target.parentElement.firstElementChild.textContent.toLowerCase();
   let shipForm = document.querySelector(`#input-${shipType}`);
   let shipDirection = document.querySelector(
     `input#${shipType}-direction`

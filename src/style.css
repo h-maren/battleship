@@ -134,3 +134,25 @@ li {
     flex-direction: column;
     align-items: center;
 }
+
+.carrier-info, .battleship-info, .cruiser-info, .submarine-info, .destroyer-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-row {
+    gap: 10px;
+}
+
+button {
+    margin: 10px;
+}
+
+input {
+    width: 50px;
+}
+
+.input-ships h4 {
+    margin-top: 20px;
+}
