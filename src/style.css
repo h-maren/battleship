@@ -1,6 +1,40 @@
+
+
+@font-face {
+    font-family: 'black_ops_oneregular';
+    src: url('fonts/blackopsone-regular-webfont.woff2') format('woff2'),
+         url('fonts/blackopsone-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'quanticobold';
+    src: url('fonts/quantico-bold-webfont.woff2') format('woff2'),
+         url('fonts/quantico-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'quanticoregular';
+    src: url('fonts/quantico-regular-webfont.woff2') format('woff2'),
+         url('fonts/quantico-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 body {
+    font-family: 'quanticoregular', Arial, Helvetica, sans-serif;
     display: grid;
-    grid-template-columns: 1fr 3fr 3fr;
+    grid-template-columns: 2fr 3fr 3fr;
+}
+
+button {
+    font-family: 'quanticoregular', Arial, Helvetica, sans-serif;
 }
 
 .header, .game-message {
@@ -8,13 +42,26 @@ body {
     text-align: center;
 }
 
-h3 {
+h1, h2, h3, h4 {
+    font-family: 'black_ops_oneregular','Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin: 5px;
     text-align: center;
 }
 
-h1, h2, h3 {
-    margin: 10px;
-    text-align: center;
+ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+li {
+    list-style-type: none;
+    display: inline-block;
+    padding: 0 10px;
+}
+
+.form-row {
+    display: flex;
+    align-items: center;
 }
 
 .real-player-gameboard {
@@ -80,4 +127,10 @@ h1, h2, h3 {
 
 .sunken {
     color: red;
+}
+
+.input-ships {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
