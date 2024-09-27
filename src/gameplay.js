@@ -1,6 +1,7 @@
 const {Ship} = require('./ship.js');
 const {Gameboard} = require('./gameboard.js');
 const {Player} = require('./player.js');
+const {realPlayerAttackSquares} = require('./index.js');
 
 
 let realPlayer = new Player('real');
@@ -114,6 +115,18 @@ const playRound = (function (e){
         return;
     }
     rpAttacks.push(coord);
+    let allRPShipsSunk=realPlayer.gameboard.isAllSunk();
+    if(allRPShipsSunk){
+        alert("all of real player's ships are sunk!");
+        realPlayerAttackSquares.forEach((square) => {square.removeEventListener("click", playRound)});
+        return;
+    }
+    let allCompShipsSunk=compPlayer.gameboard.isAllSunk();
+    if(allCompShipsSunk){
+            alert("all comp player ships are sunk!");
+            realPlayerAttackSquares.forEach((square) => {square.removeEventListener("click", playRound)});
+            return;
+    }
     compPlayer.gameboard.receiveAttack(coord);
     realPlayer.renderGameboard();
     compPlayer.renderGameboard();
@@ -130,11 +143,6 @@ const playRound = (function (e){
         messageContainer.textContent=`Real player selects ${coord} and hits a ship!`;
         messageContainer.textContent+="\n";
         }
-    }
-    let allCompShipsSunk=compPlayer.gameboard.isAllSunk();
-    if(allCompShipsSunk){
-            alert("all comp player ships are sunk!");
-            return;
     }
     //computer player round
     let [xCompCoord,yCompCoord,compCoord]=generateRandomCoords();
@@ -158,11 +166,6 @@ const playRound = (function (e){
         } else {
             messageContainer.textContent+=`Comp player selects ${compCoord} and hits a ship!`;
         }
-    }
-    let allRPShipsSunk=realPlayer.gameboard.isAllSunk();
-    if(allRPShipsSunk){
-        alert("all of real player's ships are sunk!");
-        return;
     }
 });
 

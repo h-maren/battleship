@@ -75,3 +75,4 @@ const realPlayerAttackSquares = (function () {
     return attackSquares;
 })();
 
+module.exports = {realPlayerAttackSquares}
