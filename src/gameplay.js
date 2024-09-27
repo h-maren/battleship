@@ -1,39 +1,27 @@
 const {Ship} = require('./ship.js');
 const {Gameboard} = require('./gameboard.js');
 const {Player} = require('./player.js');
-const {realPlayerAttackSquares} = require('./index.js');
-
 
 let realPlayer = new Player('real');
 let compPlayer = new Player('computer');
 
-//create coords for real player
-/*let rpCarrier = new Ship('carrier');
-let rpBattleship = new Ship('battleship');
-let rpCruiser = new Ship('cruiser');
-let rpSub = new Ship('submarine');
-let rpDestroyer = new Ship('destroyer');*/7
 
-//create coords for pc player
+//hide comp game squares
+const compPlayerGameSquares = (function () {
+    let compPlayerGameboard=document.querySelector('.comp-player-gameboard');
+    let compPlacementGameboard=compPlayerGameboard.querySelector('.ship-placement-gameboard');
+    let compPlacementSquares=compPlacementGameboard.querySelectorAll('.game-square');
+    return compPlacementSquares;
+})();
+
+compPlayerGameSquares.forEach((square)=>{square.classList.add('hide-grey')});
+
 let pcCarrier = new Ship('carrier');
 let pcBattleship = new Ship('battleship');
 let pcCruiser = new Ship('cruiser');
 let pcSub = new Ship('submarine');
 let pcDestroyer = new Ship('destroyer');
 
-//realPlayer.gameboard.placeShip(rpCarrier,'A1','right');
-//realPlayer.gameboard.placeShip(rpBattleship,'C6','down');
-//realPlayer.gameboard.placeShip(rpCruiser,'I9','left');
-//realPlayer.gameboard.placeShip(rpSub,'H6','up');
-//realPlayer.gameboard.placeShip(rpDestroyer,'A3','right');
-
-
-/*compPlayer.gameboard.placeShip(pcCarrier,'B2','down');
-compPlayer.gameboard.placeShip(pcBattleship,'F10','right');
-compPlayer.gameboard.placeShip(pcCruiser,'H2','down');
-compPlayer.gameboard.placeShip(pcSub,'F8','left');
-compPlayer.gameboard.placeShip(pcDestroyer,'D10','up');
-*/
 compPlayerPlaceShips(pcCarrier);
 compPlayerPlaceShips(pcBattleship);
 compPlayerPlaceShips(pcCruiser);
@@ -43,6 +31,8 @@ compPlayerPlaceShips(pcDestroyer);
 
 let compAttacks=[];
 let rpAttacks =[];
+
+
 
 //pc player places ships randomly
 function compPlayerPlaceShips(ship){
@@ -57,27 +47,31 @@ function compPlayerPlaceShips(ship){
     }
     compPlayer.gameboard.placeShip(ship,compCoord,shipDirection);
     compPlayer.renderGameboard();
-    console.log(compPlayer.gameboard.shipList);
 }
 
 
 let messageContainer=document.querySelector('.game-message');
 
 const getShipCoords = (function(shipType,shipDirection,shipCoords) {
-    let newShip = new Ship(shipType);
-    let validCheck=realPlayer.gameboard.placeShip(newShip,shipCoords,shipDirection)
-    if(validCheck==false){
-        messageContainer.textContent=`Input valid coordinates for ${shipType}!`;
+    shipDirection=shipDirection.toLowerCase();
+    if((shipDirection=="right")||(shipDirection=="left")||(shipDirection=="up")||(shipDirection=="down")){
+        let newShip = new Ship(shipType);
+        let validCheck=realPlayer.gameboard.placeShip(newShip,shipCoords,shipDirection)
+        if(validCheck==false){
+            messageContainer.textContent=`Input valid coordinates for ${shipType}!`;
+            return false;
+        }
+        realPlayer.gameboard.placeShip(newShip,shipCoords,shipDirection);
+        messageContainer.textContent=`Human player put ${newShip.type} at ${shipCoords} facing ${shipDirection}!`;
+        realPlayer.renderGameboard();
+     } else {
+        messageContainer.textContent=`Must put right, left, up, or down as direction!`;
         return false;
     }
-    realPlayer.gameboard.placeShip(newShip,shipCoords,shipDirection);
-    messageContainer.textContent=`Human player put ${newShip.type} at ${shipCoords} facing ${shipDirection}!`
-    realPlayer.renderGameboard();
 });
 
 const initializeGame = (function (){
     let checkReady=checkIfGameReady();
-    console.log(checkReady);
     if(checkReady){
         messageContainer.textContent=`Human player, select your attack by clicking a coordinate on your attacks board!`;
         realPlayer.renderGameboard();
@@ -110,23 +104,16 @@ const playRound = (function (e){
     let xcoord=e.target.getAttribute("data-xcoord");
     let ycoord=e.target.getAttribute("data-ycoord");
     let coord=convertCoord(xcoord,ycoord);
+    let allCompShipsSunk=compPlayer.gameboard.isAllSunk();
+    let allRPShipsSunk=realPlayer.gameboard.isAllSunk();
+    if(allCompShipsSunk||allRPShipsSunk){
+        return;
+    }
     if(rpAttacks.includes(coord)){
         messageContainer.textContent=`Pick valid coordinates!`;
         return;
     }
     rpAttacks.push(coord);
-    let allRPShipsSunk=realPlayer.gameboard.isAllSunk();
-    if(allRPShipsSunk){
-        alert("all of real player's ships are sunk!");
-        realPlayerAttackSquares.forEach((square) => {square.removeEventListener("click", playRound)});
-        return;
-    }
-    let allCompShipsSunk=compPlayer.gameboard.isAllSunk();
-    if(allCompShipsSunk){
-            alert("all comp player ships are sunk!");
-            realPlayerAttackSquares.forEach((square) => {square.removeEventListener("click", playRound)});
-            return;
-    }
     compPlayer.gameboard.receiveAttack(coord);
     realPlayer.renderGameboard();
     compPlayer.renderGameboard();
@@ -139,6 +126,19 @@ const playRound = (function (e){
         if(shipCheck==true){  
             messageContainer.textContent=`Real player selects ${coord} and sinks the ${compPlayer.gameboard.shipPlacement[xcoord][ycoord].type}!`;
             messageContainer.textContent+="\n";
+            let compSunkenShipList=document.querySelector('.computer-sunken-ships-list');
+            console.log(compSunkenShipList);
+            console.log(`li.${compPlayer.gameboard.shipPlacement[xcoord][ycoord].type}-sunk`);
+            let sunkenShipListItem=compSunkenShipList.querySelector(`li.${compPlayer.gameboard.shipPlacement[xcoord][ycoord].type}-sunk`);
+            console.log(sunkenShipListItem);
+            sunkenShipListItem.classList.add('sunken');
+            allCompShipsSunk=compPlayer.gameboard.isAllSunk();
+            if(allCompShipsSunk){
+                alert("all comp player ships are sunk!");
+                messageContainer.textContent=`Human player wins!`;
+                compPlayerGameSquares.forEach((square)=>{square.classList.remove('hide-grey')});
+                return;
+            }
         } else {
         messageContainer.textContent=`Real player selects ${coord} and hits a ship!`;
         messageContainer.textContent+="\n";
@@ -163,6 +163,15 @@ const playRound = (function (e){
         let shipCheck=realPlayer.gameboard.shipPlacement[xCompCoord][yCompCoord].isSunk();
         if(shipCheck==true){
             messageContainer.textContent=`Comp player selects ${compCoord} and sinks the ${realPlayer.gameboard.shipPlacement[xCompCoord][yCompCoord].type}!`;
+            let humanSunkenShipList=document.querySelector('.human-sunken-ships-list');
+            let sunkenShipListItem=humanSunkenShipList.querySelector(`li.${realPlayer.gameboard.shipPlacement[xcoord][ycoord].type}-sunk`);
+            sunkenShipListItem.classList.add('sunken');
+            if(allRPShipsSunk){
+                alert("all of real player's ships are sunk!");
+                messageContainer.textContent=`Comp player wins!`;
+                compPlayerGameSquares.forEach((square)=>{square.classList.remove('hide-grey')});
+                return;
+            }
         } else {
             messageContainer.textContent+=`Comp player selects ${compCoord} and hits a ship!`;
         }

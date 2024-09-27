@@ -58,7 +58,6 @@ startBtn.addEventListener('click', startGame);
 
 function startGame(){
     let checkReady=initializeGame();
-    console.log(checkReady);
     if(!checkReady){
         return;
     }
@@ -75,4 +74,3 @@ const realPlayerAttackSquares = (function () {
     return attackSquares;
 })();
 
-module.exports = {realPlayerAttackSquares}

@@ -73,3 +73,11 @@ h1, h2, h3 {
 .missed-attacks-gameboard .hit {
     background-color: green;
 }
+
+.comp-player-gameboard .ship-placement-gameboard .hide-grey {
+    background-color: grey;
+}
+
+.sunken {
+    color: red;
+}
