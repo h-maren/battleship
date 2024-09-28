@@ -75,7 +75,7 @@ const getShipCoords = function (shipType, shipDirection, shipCoords) {
       return false;
     }
     realPlayer.gameboard.placeShip(newShip, shipCoords, shipDirection);
-    messageContainer.textContent = `Human player put ${newShip.type} at ${shipCoords} facing ${shipDirection}!`;
+    messageContainer.textContent = `Human player put ${newShip.type} at ${shipCoords.toUpperCase()} facing ${shipDirection}!`;
     realPlayer.renderGameboard();
   } else {
     messageContainer.textContent = `Must put right, left, up, or down as direction!`;

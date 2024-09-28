@@ -18,7 +18,7 @@ class Gameboard {
   }
   placeShip(Ship, coord, direction) {
     //split coordinates into x and y
-    let xcoord = Number(coord.charCodeAt(coord.charAt(0)) - 65);
+    let xcoord = Number(coord.toUpperCase().charCodeAt(coord.charAt(0))) - 65;
     let ycoord = Number(coord.charAt(1)) - 1;
     if (coord.length == 3) {
       ycoord = Number(coord.charAt(1) + coord.charAt(2)) - 1;
