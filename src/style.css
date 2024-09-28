@@ -151,6 +151,7 @@ button {
 
 input {
     width: 50px;
+    font-family: 'quanticoregular', Arial, Helvetica, sans-serif;
 }
 
 .input-ships h4 {

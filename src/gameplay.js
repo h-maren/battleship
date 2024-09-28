@@ -100,7 +100,6 @@ const initializeGame = function () {
 const checkIfGameReady = function () {
   let compPlayerReady = compPlayer.gameboard.allShipsPlaced();
   let realPlayerReady = realPlayer.gameboard.allShipsPlaced();
-  console.log(realPlayerReady);
   if (!compPlayerReady) {
     messageContainer.textContent = `You're computer player is lazy and is not ready!`;
     return false;
@@ -130,25 +129,18 @@ const playRound = function (e) {
   realPlayer.renderGameboard();
   compPlayer.renderGameboard();
   if (e.target.classList.contains("missed")) {
-    messageContainer.textContent = `Real player selects ${coord} and misses!`;
-    messageContainer.textContent += "\n";
+    messageContainer.textContent = `Real player selects ${coord} and misses!\n`;
   }
   if (e.target.classList.contains("hit")) {
     let shipCheck = compPlayer.gameboard.shipPlacement[xcoord][ycoord].isSunk();
     if (shipCheck == true) {
-      messageContainer.textContent = `Real player selects ${coord} and sinks the ${compPlayer.gameboard.shipPlacement[xcoord][ycoord].type}!`;
-      messageContainer.textContent += "\n";
+      messageContainer.textContent = `Real player selects ${coord} and sinks the ${compPlayer.gameboard.shipPlacement[xcoord][ycoord].type}!\n`;     
       let compSunkenShipList = document.querySelector(
         ".computer-sunken-ships-list"
-      );
-      console.log(compSunkenShipList);
-      console.log(
-        `li.${compPlayer.gameboard.shipPlacement[xcoord][ycoord].type}-sunk`
       );
       let sunkenShipListItem = compSunkenShipList.querySelector(
         `li.${compPlayer.gameboard.shipPlacement[xcoord][ycoord].type}-sunk`
       );
-      console.log(sunkenShipListItem);
       sunkenShipListItem.classList.add("sunken");
       allCompShipsSunk = compPlayer.gameboard.isAllSunk();
       if (allCompShipsSunk) {
@@ -160,8 +152,7 @@ const playRound = function (e) {
         return;
       }
     } else {
-      messageContainer.textContent = `Real player selects ${coord} and hits a ship!`;
-      messageContainer.textContent += "\n";
+      messageContainer.textContent = `Real player selects ${coord} and hits a ship!\n`;
     }
   }
   //computer player round
